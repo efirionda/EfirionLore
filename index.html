@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Эфирион — Книга Начал</title>
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cinzel:wght@400;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0b090e;
+    --parchment: #e4dbc6;
+    --parchment-dark: #c2ae8e;
+    --purple-bright: #9b7fd4;
+    --purple-deep: #5c3d8f;
+    --gold: #c8a84b;
+    --gold-light: #e0c87a;
+    --red-muted: #9e4a4a;
+    --teal-muted: #3a8a72;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--parchment);
+    font-family: 'EB Garamond', Georgia, serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 45% at 50% 0%, rgba(80,50,130,0.22) 0%, transparent 65%),
+      radial-gradient(ellipse 35% 55% at 85% 40%, rgba(60,35,100,0.1) 0%, transparent 55%),
+      radial-gradient(ellipse 40% 30% at 10% 80%, rgba(50,30,80,0.08) 0%, transparent 50%);
+    pointer-events: none; z-index: 0;
+  }
+  .stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .stars span {
+    position: absolute; border-radius: 50%;
+    background: rgba(190,170,230,0.6);
+    animation: twinkle var(--d,4s) ease-in-out infinite var(--del,0s);
+  }
+  @keyframes twinkle {
+    0%,100% { opacity:0.15; transform:scale(1); }
+    50% { opacity:1; transform:scale(1.8); }
+  }
+  .page {
+    position: relative; z-index: 1;
+    max-width: 840px; margin: 0 auto;
+    padding: 4rem 2.8rem 7rem;
+  }
+
+  /* COVER */
+  .cover { text-align:center; padding: 5rem 1rem 4.5rem; border-bottom: 1px solid rgba(155,127,212,0.2); margin-bottom: 4.5rem; }
+  .cover-eyebrow { font-family:'Cinzel',serif; font-size:0.68rem; letter-spacing:0.38em; color:var(--purple-bright); text-transform:uppercase; margin-bottom:1.8rem; opacity:0.75; }
+  .crystal-glyph { display:inline-block; width:72px; height:72px; margin-bottom:1.6rem; }
+  .cover-title { font-family:'Cinzel',serif; font-size:clamp(2.6rem,7vw,4.4rem); font-weight:600; color:var(--gold-light); letter-spacing:0.14em; line-height:1.05; margin-bottom:0.5rem; text-shadow:0 0 60px rgba(200,168,75,0.25); }
+  .cover-subtitle { font-family:'IM Fell English',serif; font-style:italic; font-size:1.2rem; color:var(--parchment-dark); opacity:0.7; margin-bottom:2.8rem; }
+  .cover-rule { display:flex; align-items:center; gap:1rem; justify-content:center; margin-bottom:2.8rem; }
+  .cover-rule::before,.cover-rule::after { content:''; flex:1; max-width:140px; height:1px; background:linear-gradient(to right,transparent,rgba(155,127,212,0.45),transparent); }
+  .cover-rule span { color:var(--purple-bright); opacity:0.55; font-size:1rem; }
+  .cover-verse { font-family:'IM Fell English',serif; font-style:italic; font-size:1.05rem; color:var(--parchment-dark); opacity:0.58; max-width:500px; margin:0 auto 2rem; line-height:1.9; }
+  .cover-lingua { font-family:'IM Fell English',serif; font-style:italic; font-size:0.88rem; color:var(--purple-bright); opacity:0.5; letter-spacing:0.05em; margin-top:1.2rem; }
+
+  /* BOOK */
+  .book { margin-bottom:4rem; }
+  .book-label { font-family:'Cinzel',serif; font-size:0.62rem; letter-spacing:0.42em; color:var(--purple-bright); text-transform:uppercase; opacity:0.65; margin-bottom:0.35rem; }
+  .book-name { font-family:'Cinzel',serif; font-size:1.65rem; font-weight:600; color:var(--gold); letter-spacing:0.05em; margin-bottom:2.2rem; padding-bottom:0.8rem; border-bottom:1px solid rgba(200,168,75,0.18); }
+  .book-dark .book-label { color:#b05a5a; }
+  .book-dark .book-name { color:#c06060; border-bottom-color:rgba(192,96,96,0.18); }
+  .book-dark .chap-num { color:#b05a5a !important; }
+  .book-dark .lingua { color:#d49090; border-color:rgba(176,90,90,0.25); background:rgba(100,30,30,0.12); }
+  .book-end .book-label { color:#4a9e72; }
+  .book-end .book-name { color:#6abf96; border-bottom-color:rgba(74,158,114,0.2); }
+  .book-end .chap-num { color:#4a9e72 !important; }
+
+  /* CHAPTER */
+  .chapter { margin-bottom:2.8rem; }
+  .chap-head { display:flex; align-items:baseline; gap:1rem; margin-bottom:1rem; }
+  .chap-num { font-family:'Cinzel',serif; font-size:0.62rem; letter-spacing:0.3em; color:var(--purple-bright); opacity:0.6; white-space:nowrap; padding-top:3px; }
+  .chap-title { font-family:'Cinzel',serif; font-size:1.05rem; font-weight:400; color:var(--parchment); letter-spacing:0.04em; }
+
+  /* VERSE */
+  .verse { font-size:1.12rem; line-height:2.05; color:rgba(228,219,198,0.8); margin-bottom:0.6rem; text-indent:2em; }
+  .verse:first-of-type::first-letter {
+    font-family:'Cinzel',serif; font-size:3.6rem; float:left;
+    line-height:0.72; margin-right:0.08em; margin-top:0.1em;
+    color:var(--gold);
+  }
+  .verse em { font-style:italic; color:var(--parchment); }
+  .verse strong { font-weight:500; color:var(--gold-light); font-style:normal; }
+  .verse.no-indent { text-indent:0; }
+
+  /* LINGUA — sacred language inserts */
+  .lingua {
+    display:block; margin:1.4rem 1rem 1.4rem 2rem;
+    font-family:'IM Fell English',serif; font-style:italic;
+    font-size:1rem; color:rgba(155,127,212,0.8);
+    border-left:2px solid rgba(155,127,212,0.25);
+    padding:0.6rem 1rem;
+    background:rgba(60,35,100,0.1);
+    border-radius:0 3px 3px 0;
+    line-height:1.8;
+  }
+  .lingua-tr { font-size:0.82rem; color:rgba(194,174,142,0.5); font-style:normal; display:block; margin-top:0.25rem; letter-spacing:0.02em; }
+
+  /* QUOTE — eyewitness or chronicler */
+  .chronicler {
+    margin:1.5rem 0 1.5rem 1.5rem;
+    padding:0.7rem 1.2rem;
+    border-left:1px solid rgba(200,168,75,0.2);
+    font-family:'IM Fell English',serif; font-style:italic;
+    font-size:1rem; color:rgba(224,200,122,0.6);
+    line-height:1.85;
+  }
+  .chronicler-source { display:block; font-size:0.78rem; color:rgba(194,174,142,0.38); font-style:normal; margin-top:0.4rem; letter-spacing:0.06em; text-transform:uppercase; }
+
+  /* SEPARATOR */
+  .sep { display:flex; align-items:center; gap:1.2rem; margin:3.2rem 0; }
+  .sep::before,.sep::after { content:''; flex:1; height:1px; background:linear-gradient(to right,transparent,rgba(155,127,212,0.28),transparent); }
+  .sep span { font-family:'Cinzel',serif; font-size:0.58rem; letter-spacing:0.45em; color:var(--purple-bright); opacity:0.45; text-transform:uppercase; white-space:nowrap; }
+
+  /* DISTRICTS */
+  .districts-intro { font-family:'IM Fell English',serif; font-style:italic; font-size:1.1rem; color:var(--parchment-dark); opacity:0.68; margin-bottom:2.5rem; line-height:1.9; text-align:center; padding:0 0.5rem; }
+  .district-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:1.6rem; margin-bottom:3rem; }
+  .dc {
+    border:1px solid rgba(155,127,212,0.15); border-radius:4px;
+    padding:1.6rem 1.7rem; background:rgba(255,255,255,0.022);
+    position:relative; overflow:hidden;
+  }
+  .dc::before { content:''; position:absolute; top:0; left:0; width:3px; height:100%; background:var(--acc,var(--purple-bright)); opacity:0.65; }
+  .dc-steam { --acc:#b8860b; }
+  .dc-elves { --acc:#4a9e6e; }
+  .dc-gothic { --acc:#8b3a8b; }
+  .dc-asia  { --acc:#c04040; }
+  .dc-ocean { --acc:#2e7fbf; }
+  .dc-italy { --acc:#c8824a; }
+  .dc-name { font-family:'Cinzel',serif; font-size:0.92rem; font-weight:600; color:var(--gold-light); letter-spacing:0.1em; margin-bottom:0.2rem; }
+  .dc-epit { font-family:'IM Fell English',serif; font-style:italic; font-size:0.84rem; color:var(--parchment-dark); opacity:0.6; margin-bottom:0.85rem; }
+  .dc-text { font-size:0.98rem; line-height:1.88; color:rgba(228,219,198,0.72); }
+  .dc-text em { font-style:italic; color:rgba(228,219,198,0.9); }
+  .dc-lingua { display:block; margin-top:0.8rem; font-family:'IM Fell English',serif; font-style:italic; font-size:0.85rem; color:rgba(155,127,212,0.65); }
+
+  /* COLOPHON */
+  .colophon { text-align:center; padding-top:3rem; border-top:1px solid rgba(155,127,212,0.13); }
+  .colophon p { font-family:'IM Fell English',serif; font-style:italic; font-size:0.92rem; color:var(--parchment-dark); opacity:0.42; line-height:2; }
+
+  @media(max-width:600px){
+    .page{padding:2.5rem 1.2rem 5rem;}
+    .district-grid{grid-template-columns:1fr;}
+    .cover-title{font-size:2.3rem;}
+    .lingua{margin-left:0.5rem;}
+  }
+</style>
+</head>
+<body>
+<div class="stars" aria-hidden="true" id="stars"></div>
+<div class="page">
+
+<!-- ══ ОБЛОЖКА ══ -->
+<div class="cover">
+  <p class="cover-eyebrow">Liber Primordialis Aethyrionis — Книга первоначал Эфириона</p>
+  <svg class="crystal-glyph" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <polygon points="36,5 58,26 50,65 22,65 14,26" fill="rgba(80,50,130,0.12)" stroke="#9b7fd4" stroke-width="0.8"/>
+    <polygon points="36,5 58,26 36,21" fill="rgba(155,127,212,0.18)" stroke="#9b7fd4" stroke-width="0.5"/>
+    <polygon points="36,5 14,26 36,21" fill="rgba(80,50,130,0.22)" stroke="#9b7fd4" stroke-width="0.5"/>
+    <polygon points="36,21 58,26 50,65 22,65 14,26" fill="rgba(60,35,100,0.08)" stroke="rgba(155,127,212,0.3)" stroke-width="0.4"/>
+    <line x1="36" y1="5" x2="36" y2="65" stroke="rgba(155,127,212,0.25)" stroke-width="0.5" stroke-dasharray="3,4"/>
+    <line x1="14" y1="26" x2="58" y2="26" stroke="rgba(155,127,212,0.15)" stroke-width="0.5"/>
+    <circle cx="36" cy="21" r="3" fill="#c8a84b" opacity="0.85"/>
+    <circle cx="36" cy="21" r="6" fill="none" stroke="rgba(200,168,75,0.25)" stroke-width="0.5"/>
+  </svg>
+  <h1 class="cover-title">Эфирион</h1>
+  <p class="cover-subtitle">Книга Начал, Падения и Завета Семи Осколков</p>
+  <div class="cover-rule"><span>✦</span></div>
+  <p class="cover-verse">
+    Записано в год Тихого Возвращения,<br>
+    дабы ни единый из живущих не говорил:<br>
+    <em>«Не знал я. Не ведал я. Не было мне сказано».</em><br>
+    Ибо отныне — сказано.
+  </p>
+  <p class="cover-lingua">Aethere scripta, aethere servata. — Эфиром написано, эфиром сохранено.</p>
+</div>
+
+
+<!-- ══ КНИГА ПЕРВАЯ ══ -->
+<div class="book">
+  <p class="book-label">Liber I — Книга первая</p>
+  <h2 class="book-name">О Начале, Жертве и Свете, Собравшем Народы</h2>
+
+  <div class="chapter">
+    <div class="chap-head">
+      <span class="chap-num">Глава I</span>
+      <span class="chap-title">Об Атланте, коий принял тяжесть неба</span>
+    </div>
+    <p class="verse">В начале не было ни города, ни дороги, ни огня в очаге. Была лишь земля — и над нею падало небо. Медленно, как падает река в пропасть: не разом, но неотвратимо, год за годом, эпоха за эпохой. И не было никого, кто мог бы сказать, когда именно началось это падение, ибо не было ещё людей, что считали бы годы, и не было ещё богов, что помнили бы первые дни.</p>
+    <p class="verse">Но был <em>Эфир</em>. Существо не из плоти и не из камня — из того, что бывает прежде всякого имени, из той субстанции, что древние летописцы Тёмного Притвора нарекли словом <strong>Archaion Pneuma</strong> — «дух прежде духов». Он не был рождён, ибо рождение предполагает мать. Он не был создан, ибо создание предполагает творца. Он просто был — так, как бывает тишина прежде первого звука.</p>
+    <p class="verse">И вот увидел <em>Эфир</em>, что небо падает. И поднял руки свои. И вознёс над главою своею великий <strong>Кристалл</strong> — сердце того, что держит высь, средоточие силы, которую люди позднейших времён назовут по-разному: одни — <em>lux prima</em>, первый свет, другие — <em>το φως της αρχής</em>, свет начала, третьи — просто Даром, не зная иного слова.</p>
+    <samp class="lingua">
+      Aether surrexit et caelum tenuit manibus suis, et factum est firmamentum super terram.
+      <span class="lingua-tr">Эфир восстал и удержал небо руками своими, и стала твердь над землёю.</span>
+    </samp>
+    <p class="verse">Так он встал. Так он остался стоять. И горная порода начала подниматься по ногам его — медленно, как поднимается вода в колодце после дождя: сначала до колен, спустя века — до бёдер, после ещё веков — до груди. Он не противился. Земля брала его к себе, как мать забирает уставшего дитя — без слов, но с бесконечной тихой нежностью. И вот не стало видно ничего: ни рук его, ни лица, ни очей, глядевших некогда на звёзды. Лишь <strong>Кристалл</strong> сиял над поверхностью — одинокий, как сердце погребённого бога.</p>
+    <div class="chronicler">
+      «Мы знаем о нём лишь то, что он стоял. Мы не знаем, думал ли он. Мы не знаем, скорбел ли он. Мы знаем лишь: пока он стоял — небо держалось. И этого достаточно, чтобы считать его величайшим из всех, кто когда-либо жил на сей земле.»
+      <span class="chronicler-source">— из «Первых Свидетельств», хранилище Тёмного Притвора, том I</span>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chap-head">
+      <span class="chap-num">Глава II</span>
+      <span class="chap-title">О том, как свет собрал народы</span>
+    </div>
+    <p class="verse">Свет от <strong>Кристалла</strong> был виден на расстоянии многих дней пути. Он не слепил и не жёг — он звал. Не голосом, но тем, что сильнее голоса: той тягой в груди, что не умеет объяснить себя, но умеет двигать ноги. Первые, кто пришли на этот свет, были людьми без имени и без прошлого — странниками, потерявшими свои народы в долгом скитании, в войнах, в голоде, в тех безымянных катастрофах, о которых не сохранилось хроник.</p>
+    <p class="verse">Они пришли порознь. Они остались вместе. Ибо <strong>Кристалл</strong> давал то, чего не давало ничто иное: почва вблизи него рожала урожай без устали — трижды в год, а иные говорят, и четырежды. Вода в ручьях текла незамутнённой. А тьма, что прежде гнездилась в округе и порождала чудовищ — тех мерзких тварей, которых хроники зовут <em>tenebrosi</em>, порождения мрака, — отступала, не смея приблизиться к месту, где горел осколок небесной силы.</p>
+    <samp class="lingua">
+      Lux non fugitur — sequitur. Qui semel vidit, non potest non venire.
+      <span class="lingua-tr">Свет не бежит — следует. Кто единожды увидел его, не может не прийти.</span>
+    </samp>
+    <p class="verse">Каждый пришедший приносил с собою иной говор, иной уклад, иную память о боге. Смешивалось всё — как смешиваются реки, впадая в море: теряют имена, но не воду. Поселение росло. Хижины становились домами. Дома выстраивались в улицы. Улицы обретали названия. И в то утро, когда кто-то впервые произнёс слово <strong>Эфирион</strong> — в честь того, кто спал под ними, не зная, что над его погребённой спиной выросло целое небо человеческих жизней, — в то утро город стал городом.</p>
+  </div>
+</div>
+
+<div class="sep"><span>✦ &nbsp; Finis libri primi &nbsp; ✦</span></div>
+
+
+<!-- ══ КНИГА ВТОРАЯ ══ -->
+<div class="book">
+  <p class="book-label">Liber II — Книга вторая</p>
+  <h2 class="book-name">О Расколе, Пяти Смельчаках и Пришествии Незнакомки</h2>
+
+  <div class="chapter">
+    <div class="chap-head">
+      <span class="chap-num">Глава III</span>
+      <span class="chap-title">О том, как множество стало ядом</span>
+    </div>
+    <p class="verse">Когда людей стало слишком много, власть начала делать то, что всегда делает власть, устав от самой себя: она замолчала. Не злобно, не намеренно — просто замолчала, как замолкает колокол, когда некому ударить в него. И в этой тишине каждый квартал начал говорить сам с собою — на своём наречии, по своему разумению, для своих ушей.</p>
+    <p class="verse">Районы росли каждый в сторону своего неба. Один строил из железа и пара, другой — из дерева и молитвы, третий — из камня и скорби. И каждый всё громче требовал, чтобы именно его путь был признан единственно верным. А правители молчали. И молчание власти есть разрешение на всякий произвол — сие знает каждый летописец, сие знал уже первый человек, переступивший порог первого дома в Эфирионе.</p>
+    <samp class="lingua">
+      Silentium potestatis — vox anarchiae. Ubi rector tacet, omnes loquuntur.
+      <span class="lingua-tr">Молчание власти — голос безвластия. Где правитель умолкает, говорят все.</span>
+    </samp>
+    <p class="verse">Тогда вышли <strong>пятеро</strong>. Летописи расходятся в именах, ибо каждый район помнит своих и забывает чужих. Но в том, что их было именно пятеро — все согласны. Они были не воинами и не мудрецами: просто людьми, у которых хватило голоса перекричать толпу и хватило смелости не убежать после. Они поклялись поднять город. И народ — изголодавшийся по обещаниям, как человек изголодавшийся по хлебу — поверил им. Ибо голодному не важно, откуда хлеб, — лишь бы был.</p>
+  </div>
+
+  <div class="chapter">
+    <div class="chap-head">
+      <span class="chap-num">Глава IV</span>
+      <span class="chap-title">О пришествии той, что звалась Кираку</span>
+    </div>
+    <p class="verse">Прошли годы. Город стоял ни назад ни вперёд — как стоит телега со сломанным колесом: вроде бы цела, вроде бы на месте, а ехать не может. И вот однажды, в день, который хроники называют просто «днём дождя», один из старейших среди пятерых привёл в Эфирион незнакомку.</p>
+    <p class="verse">Звали её <strong>Кираку</strong>. Была она тиха, почти незаметна — из тех людей, что входят в комнату так, чтобы никто не обернулся, и всё же оказываются в центре прежде, чем кто-либо успевает понять, как это случилось. Одета была просто. Говорила мало. Смотрела — внимательно: тем взглядом, что запоминает не лица, а то, что за лицами.</p>
+    <div class="chronicler">
+      «Я видел её в первый день. Она стояла у ворот и смотрела на Башню — долго, не моргая. Я подумал тогда: вот человек, который что-то ищет. Я не подумал тогда: вот человек, который уже нашёл.»
+      <span class="chronicler-source">— из показаний привратника восточных ворот, архив Серебряного Предела</span>
+    </div>
+    <p class="verse">Поначалу никто не придал ей значения. Город велик, странников много, и каждый приходит со своей тенью. Но постепенно, день за днём, <em>Кираку</em> оказывалась всё ближе к тем, в чьих руках была власть. Слово здесь, взгляд там, молчание именно тогда, когда молчание красноречивее слова — ничего явного, ничего, за что можно было бы ухватиться рукой и назвать своим именем. Лишь много позже летописцы напишут с горечью и удивлением: <em>«Она вошла как гостья и осталась как хозяйка — и никто не может назвать точного часа, в который это произошло».</em></p>
+    <samp class="lingua">
+      Hospes intrat, domina manet. Nemo vidit transitum.
+      <span class="lingua-tr">Гостья входит, хозяйка остаётся. Никто не видел перехода.</span>
+    </samp>
+  </div>
+</div>
+
+<div class="sep"><span>✦ &nbsp; Finis libri secundi &nbsp; ✦</span></div>
+
+
+<!-- ══ КНИГА ТРЕТЬЯ: ТЬМА ══ -->
+<div class="book book-dark">
+  <p class="book-label">Liber III — Книга третья</p>
+  <h2 class="book-name">О Яде Кираку, Войне Районов и Убийстве Прародителя</h2>
+
+  <div class="chapter">
+    <div class="chap-head">
+      <span class="chap-num">Глава V</span>
+      <span class="chap-title">О природе чар и о том, как падают сильные</span>
+    </div>
+    <p class="verse">Говорят, что <strong>Кираку</strong> не принуждала. Не угрожала. Не лгала — или лгала так редко, что это была почти правда, а правда — так искусно, что становилась почти ложью. Она делала нечто иное: она слушала. Внимательнее, чем слушал кто-либо другой. Она помнила, что кому важно — какое слово кого задевает, какая пауза кого пугает, какое воспоминание у кого не зажило. И появлялась именно тогда, когда человек оставался в сомнении — не чтобы дать ответ, но чтобы оказаться рядом. А присутствие, повторённое довольно часто, становится необходимостью прежде, чем человек замечает это.</p>
+    <samp class="lingua">
+      Non vi, non metu — sed cura ficta et memoria veneni.
+      Ἡ ἀγάπη ψευδής δεσμός ἐστι χαλεπώτερος σιδήρου.
+      <span class="lingua-tr">Не силою, не страхом — но притворной заботой и памятью яда. / Ложная любовь — оковы крепче железа.</span>
+    </samp>
+    <p class="verse">Так — медленно, как яд, растворяющийся в воде: незаметно, без вкуса, без цвета — большинство из пятерых стали её голосами, не зная того сами. Они думали, что думают. Они думали, что решают. Они не знали, что давно уже лишь повторяют.</p>
+    <p class="verse">Устояли лишь <strong>двое</strong>. Хроники не дают им имён — только прозвания: один именуется <em>Veritas</em>, другой — <em>Vigil</em>, Правдивый и Бдящий. Может, потому что были старше и видели подобное прежде. Может, потому что однажды в разговоре с <em>Кираку</em> заметили: она называла имя <em>Эфира</em> чуть слишком небрежно — как называют имя камня, а не бога. Это была малость. Почти ничто. Но тот, кто умеет слышать, слышит именно такие малости.</p>
+    <div class="chronicler">
+      «Veritas сказал мне после: "Я понял в тот же день, когда она пришла. Но я не знал, как объяснить то, что знал. А когда нашёл слова — было уже слишком поздно, чтобы кто-то стал слушать."»
+      <span class="chronicler-source">— из личных записей летописца Тёмного Притвора, том VI, страница утрачена</span>
+    </div>
+    <p class="verse">Тех двоих выгнали. Не казнили — просто выгнали, что иногда хуже казни: дали время жить со знанием того, что происходит, и невозможностью остановить. Ворота закрылись за ними в ночи. Их не пустили проститься. Им не дали объяснить. И <strong>Эфирион</strong> остался без тех, кто мог бы в нужный час произнести слово «нет» — и был бы услышан.</p>
+  </div>
+
+  <div class="chapter">
+    <div class="chap-head">
+      <span class="chap-num">Глава VI</span>
+      <span class="chap-title">О природе Кираку, открывшейся в час крови</span>
+    </div>
+    <p class="verse"><strong>Кираку</strong> не была человеком. Это стало ясно не сразу — и в том была её главная сила. Позднейшие летописцы, сравнив свидетельства выживших, сошлись вот на чём: она была существом, которое люди в разных традициях называют по-разному, но суть которого одна. В хрониках Тёмного Притвора её именуют <em>Daemonium Cupiditatis</em> — демон алчности. В Серебряном Пределе её называют <em>ἡ Κενή</em>, Пустая — ибо внутри не было ничего, кроме желания заполнить себя чужой силой. В Кованом Округе о ней не говорят вовсе — только плюют на землю и меняют тему.</p>
+    <samp class="lingua">
+      Daemonium Cupiditatis antiquius est omnibus urbibus et omnibus regibus.
+      Nata est ex prima invidia, quando lux prima apparuit in tenebris.
+      <span class="lingua-tr">Демон алчности древнее всех городов и всех царей. / Рождён из первой зависти — в тот миг, когда первый свет явился во тьме.</span>
+    </samp>
+    <p class="verse">Она пришла за силой <strong>Кристалла</strong>. Не за городом, не за властью над людьми — власть была лишь инструментом. Ей нужна была та изначальная сила, что держала небо тысячи лет, что текла из рук <em>Эфира</em> сквозь камень, сквозь годы, сквозь само время. Сила, которой не бывает у смертных и которую не заслужить трудом — только взять. Только отнять.</p>
+    <div class="chronicler">
+      «Она смотрела на Башню так, как смотрит голодный на хлеб за стеклом. С такою же тоской. С такою же ненавистью к стеклу.»
+      <span class="chronicler-source">— свидетельство безымянного горожанина, записано в архивах Солнечных Аркад</span>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chap-head">
+      <span class="chap-num">Глава VII</span>
+      <span class="chap-title">О войне, пришедшей изнутри</span>
+    </div>
+    <p class="verse">Война пришла не сразу. Сначала были слова — резкие, как осколки фаянса: режут не с первого взгляда, а когда наступишь. Потом — закрытые ворота между кварталами. Ворота, закрытые ночью, без объявления, без объяснения — просто заперты, и стражник на вопрос «почему» пожимает плечами, ибо сам не знает, лишь получил приказ. Потом — первая кровь: та, которую каждая сторона называла ответом на чужую кровь, и никто не называл своей первой.</p>
+    <p class="verse">Улицы, некогда заполненные торговцами и детьми, заполнились людьми с оружием и страхом. Страх в толпе страшнее оружия: оружие бьёт одного, страх поворачивает всех против всех. <strong>Эфирион</strong> — город, рождённый из света одного <strong>Кристалла</strong>, — начал пожирать сам себя. И ничего не происходило без ведома и воли <em>Кираку</em>: она не командовала открыто, она лишь роняла слова в нужный момент в нужное ухо — и слова падали, как угли в сухую солому.</p>
+    <samp class="lingua">
+      Civitas contra se divisa non stabit. Haec lex prima est et ultima.
+      Ἡ πόλις ἑαυτὴν δάκνουσα οὐ σῴζεται.
+      <span class="lingua-tr">Город, разделившийся против себя, не устоит. Сей закон — первый и последний. / Город, кусающий сам себя, не спасается.</span>
+    </samp>
+    <p class="verse">Под слоями камня и земли — глубоко, там, где тишина настолько густа, что у неё есть вес, — <em>Эфир</em> слышал всё. Летописцы не знают наверное, сохранилось ли в нём к тому времени что-то похожее на разум, или лишь что-то более древнее: то, что умеет чувствовать боль, но не умеет кричать, умеет слышать, но не умеет ответить. Он слышал, как его народ убивает друг друга — тот народ, что вырос над его спиной, что жил светом его <strong>Кристалла</strong>, что носил его имя в названии города. И он не мог сдвинуться с места. Ибо если бы он сдвинулся — небо упало бы.</p>
+    <div class="chronicler">
+      «Говорят, что в ночь самой страшной битвы — той, что жгла Квартал Восходящей Черты три дня, — земля вздрагивала. Не от взрывов. Иначе. Как вздрагивает человек, когда плачет, но не позволяет себе издать звука.»
+      <span class="chronicler-source">— из «Книги Пепла», Квартал Восходящей Черты, предположительно очевидец</span>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chap-head">
+      <span class="chap-num">Глава VIII</span>
+      <span class="chap-title">Об убийстве Прародителя и расколе Кристалла</span>
+    </div>
+    <p class="verse">Было ли это приказом или советом — хроники спорят. Но факт остаётся фактом, и ни одна хроника его не отрицает: по слову <strong>Кираку</strong>, люди пошли к тому месту, где земля хранила тепло древнего тела, и сделали то, что сделали. <em>Эфир</em> был убит. Прародитель. Тот, чьей жертвой было само небо. Тот, кто стоял прежде, чем появился первый человек в этих местах. Убит руками тех, кто жил благодаря ему — и не знал об этом, ибо никто не объяснил. Ибо когда объясняют — не убивают.</p>
+    <samp class="lingua">
+      O Aether, pater sine nomine, occisus es a filiis quos non noverat.
+      Ἰδοὺ ὁ πατὴρ ἔπεσεν, καὶ οὐδεὶς ἔκλαυσεν ἐν ἐκείνῃ τῇ ὥρᾳ.
+      <span class="lingua-tr">О Эфир, отец без имени, убит ты сынами, которых не знал. / Вот — пал отец, и никто не заплакал в тот час.</span>
+    </samp>
+    <p class="verse"><strong>Кристалл</strong> раскололся. Звук, который он издал, описывают по-разному: одни говорят — как колокол, разбитый изнутри. Другие говорят — как тишина, ставшая вдруг слышимой. Третьи говорят — никакого звука не было вовсе, и именно это было страшнее всего. Семь осколков разлетелись, и небо прогнулось: медленно, как прогибается перекрытие под слишком большою тяжестью — сначала чуть заметно, потом всё явственнее. Те, кто стоял снаружи, видели, как звёзды сдвинулись — совсем немного, но достаточно, чтобы понять: что-то, державшее их на месте, перестало держать.</p>
+    <p class="verse">А <strong>Кираку</strong> — она протянула руки к осколкам. И ничего не получила. Сила не перешла к ней. Она рассыпалась, как рассыпается пламя, когда его пытаются схватить ладонями: вроде было — и нет, и только ожог остаётся напоминанием. Демон алчности стоял среди руин собственного замысла и смотрел на пустые руки.</p>
+    <div class="chronicler">
+      «Те, кто видел её лицо в тот момент — говорили по-разному. Одни: ярость. Другие: пустота. Я думаю, это одно и то же лицо, просто смотревшие глядели с разных сторон.»
+      <span class="chronicler-source">— из личного дневника неустановленного автора, найден в руинах западной галереи</span>
+    </div>
+  </div>
+
+  <div class="chapter">
+    <div class="chap-head">
+      <span class="chap-num">Глава IX</span>
+      <span class="chap-title">О бегстве той, что не пожелала признать своё</span>
+    </div>
+    <p class="verse">Она ушла прежде, чем народ успел обратить к ней свой гнев. Это тоже было частью её природы: <em>Daemonium Cupiditatis</em> не умеет оставаться там, где стало пусто — он ищет другой источник, другой сосуд, другое место, где можно снова начать. <strong>Кираку</strong> растворилась в ночи без слова, без следа, без прощания — как растворяется тень, когда гасят свет.</p>
+    <samp class="lingua">
+      Fugit quae non potest vincere. Sed fuga non est finis — est initium aliud.
+      <span class="lingua-tr">Бежит та, что не может победить. Но бегство — не конец: это иное начало.</span>
+    </samp>
+    <p class="verse">Те из пятерых, что шли за нею, теперь стояли перед гражданами с пустыми руками и пытались говорить. Слова их были привычны, отточены, умелы — и мертвы. Ибо слова живы лишь тогда, когда за ними стоит то, во что говорящий сам верит. А они уже давно не верили — они лишь привыкли говорить. И люди это чувствовали, даже те, кто не мог назвать это чувство словом.</p>
+  </div>
+</div>
+
+<div class="sep"><span>✦ &nbsp; Finis libri tertii &nbsp; ✦</span></div>
+
+
+<!-- ══ КНИГА ЧЕТВЁРТАЯ ══ -->
+<div class="book book-end">
+  <p class="book-label">Liber IV — Книга четвёртая</p>
+  <h2 class="book-name">О Возвращении Изгнанных, Башне и Завете Семи</h2>
+
+  <div class="chapter">
+    <div class="chap-head">
+      <span class="chap-num">Глава X</span>
+      <span class="chap-title">О тех, кто вернулся без слова упрёка</span>
+    </div>
+    <p class="verse">Изгнанные вернулись. Не с войском, не с речами, не с требованием суда над теми, кто их выгнал. Просто пришли на рассвете, когда ворота открылись для торговцев, и вошли среди прочих — двое немолодых людей с усталыми лицами и руками, привыкшими к работе. Народ узнал их. Молчал. Потом кто-то посторонился, давая пройти. Потом кто-то подал воды. Потом — начали помогать.</p>
+    <samp class="lingua">
+      Redeunt qui iuste eiecti non fuerunt. Et redeunt non ut ulciscantur, sed ut aedificent.
+      <span class="lingua-tr">Возвращаются те, кто изгнан был несправедливо. И возвращаются не мстить — но строить.</span>
+    </samp>
+    <p class="verse">В самом сердце города, там, где земля до сих пор хранила отзвук тепла погребённого <em>Эфира</em>, была возведена <strong>Башня Первого Света</strong>. Её строили молча — ночами и днями, в дождь и в жару. Каждый камень укладывали так, будто это был последний камень последнего дома на свете и от него зависело, устоит ли вообще хоть что-нибудь. В основание вложили наибольший осколок <strong>Кристалла</strong> — тот, что сохранил в себе больше всего прежней силы. Остальные шесть разнесли по районам. Каждому — по частице. Каждому — по свету предка.</p>
+    <p class="verse">И вновь засветился <strong>Эфирион</strong>. Иначе, чем прежде — не единым светом из одного источника, но шестью огнями по шести краям, и седьмым — в центре, в <strong>Башне</strong>, что стала теперь сердцем, которого прежде не было у города с единым сердцем. Рана не заживает без шрама. Но достаточно было света. Достаточно, чтобы снова жить.</p>
+  </div>
+
+  <div class="chapter">
+    <div class="chap-head">
+      <span class="chap-num">Глава XI</span>
+      <span class="chap-title">О последнем хаосе и слове, данном навек</span>
+    </div>
+    <p class="verse">Мир не пришёл сам собой — он редко приходит. Остатки прежней власти продолжали сидеть на местах: не из злого умысла, но из того оцепенения, в которое впадает человек, когда слишком долго делал то, что уже не имеет смысла, и не знает, как остановиться. Вернувшиеся двое ждали. Потом перестали ждать. Совершили то, что совершили: последний переворот, короткий и жестокий, как хирургический разрез. Многие ушли из города. Улицы снова опустели.</p>
+    <p class="verse">Но когда пыль осела — <strong>Эфирион</strong> стоял. И был в безопасности: не в той сытой безопасности, что не знала опасности, — но в той, трудной, что знала и выбрала иное. Корень был вырван. <strong>Новая власть</strong> произнесла единственное обещание, записанное в хрониках всех шести районов — единственное, в котором нет расхождений ни в одном слове:</p>
+    <samp class="lingua">
+      Dona maiorum servabimus. Pacem inter partes tenebimus.
+      Et numquam obliviscemus quo pretio caelum stat super nos.
+      <span class="lingua-tr">Дары предков сохраним. Мир между частями удержим. / И никогда не забудем, какою ценою стоит небо над нами.</span>
+    </samp>
+    <p class="verse">С того дня минуло много лет. Сколько именно — летописцы расходятся: каждый считает от своего события, и это правильно, ибо история не одна для всех — она такая, какою её пережили. Но сам город стоит. Районы держат осколки. <strong>Башня Первого Света</strong> возвышается в центре, и к ней приходят в дни скорби и в дни торжества — ибо она есть память о том, кто принял тяжесть всего мира, чтобы другие могли жить, не зная этой тяжести.</p>
+  </div>
+</div>
+
+<div class="sep"><span>✦ &nbsp; Finis libri quarti &nbsp; ✦</span></div>
+
+
+<!-- ══ КНИГА ПЯТАЯ — РАЙОНЫ ══ -->
+<div class="book">
+  <p class="book-label">Liber V — Книга пятая</p>
+  <h2 class="book-name">О Шести Осколках и Шести Заветах Народов</h2>
+
+  <p class="districts-intro">
+    <em>Ибо сказано в древних хрониках: где осколок — там и народ, что хранит его.<br>
+    И каждый народ хранит по-своему.<br>
+    И в этом — сила их. И в этом — различие их.<br>
+    И да не будет различие поводом для войны — ибо единожды уже было.</em>
+  </p>
+
+  <div class="district-grid">
+
+    <div class="dc dc-steam">
+      <div class="dc-name">Кованый Округ</div>
+      <div class="dc-epit">«Кто понял огонь — тот понял всё остальное»</div>
+      <div class="dc-text">Стимпанк-квартал принял свой осколок как инженер принимает задачу: разобрал, изучил, нашёл применение — и применил прежде, чем успел усомниться. Здесь <strong>Кристалл</strong> вмурован в основание центрального котла и питает машины: шестерни, поршни, трубопроводы, механизмы, о первоначальном назначении которых сами мастера порой уже не помнят. Дым над Кованым Округом не унимается ни днём ни ночью. Местные жители говорят, что <em>Эфир</em> был первым инженером: ведь он тоже держал конструкцию, которая без него рухнула бы. Это их теология — тихая, пахнущая маслом и горячим металлом, без жрецов и без молитв, только с работой, которая сама есть молитва.
+        <samp class="dc-lingua">Fac et intellige. — Делай и поймёшь.</samp>
+      </div>
+    </div>
+
+    <div class="dc dc-elves">
+      <div class="dc-name">Серебряный Предел</div>
+      <div class="dc-epit">«Свет помнит то, что забыло слово»</div>
+      <div class="dc-text">Эльфы приняли осколок без лишних слов — они ждали его, как ждут возвращения старого долга: с достоинством, без спешки, без удивления. Здесь <strong>Кристалл</strong> питает магию: он вплетён в заклинания, в ритуалы, в те практики, что передаются от учителя к ученику без записи — ибо некоторые вещи теряют силу, будучи записанными. Говорят, что в ночи Серебряного Предела можно услышать, как поёт осколок — долгий, едва слышимый звук, похожий на то, как звенит воздух перед грозой. Эльфы называют это голосом <em>Эфира</em>. Они не уточняют, что именно он говорит. Спрошенные об этом, они молчат — не из скрытности, но потому что считают: если можно сказать словами, то это уже не то.
+        <samp class="dc-lingua">Φῶς μνημονεύει ὃ λόγος ἐπελάθετο. — Свет помнит то, что забыло слово.</samp>
+      </div>
+    </div>
+
+    <div class="dc dc-gothic">
+      <div class="dc-name">Тёмный Притвор</div>
+      <div class="dc-epit">«Лишь тот, кто знает тьму, умеет ценить свет»</div>
+      <div class="dc-text">Готический квартал — место, где история города ощущается острее всего: не как абстрактное прошлое, но как нечто, живущее в камне стен и в воздухе подвалов. Здесь <strong>Кристалл</strong> хранится в подземном соборе, и доступ к нему открыт лишь в определённые часы — не из жадности, но из понимания: то, что доступно всегда, перестаёт быть ценным. Жители Тёмного Притвора лучше всех помнят <em>Кираку</em>: именно здесь написаны самые подробные хроники её прихода, её чар и её бегства. Они хранят эти хроники не из ненависти — из принципа, краткого и твёрдого:
+        <samp class="dc-lingua">Ne iterum. — Да не повторится.</samp>
+      </div>
+    </div>
+
+    <div class="dc dc-asia">
+      <div class="dc-name">Квартал Восходящей Черты</div>
+      <div class="dc-epit">«Равновесие есть высший и труднейший из трудов»</div>
+      <div class="dc-text">Здесь <strong>Кристалл</strong> — не инструмент и не святыня в привычном смысле слова. Он — ось, вокруг которой организована жизнь: его свет используют для медитаций на рассвете, его пульс отмеряет часы, его тепло согревает чайные церемонии в те утра, когда туман ещё не поднялся над крышами. Жители квартала пережили в войне больше других: именно здесь горело три дня. Именно поэтому именно здесь сильнее всего чтут покой. Они считают, что <em>Эфир</em> не умер — лишь перешёл в иное состояние, и осколок есть форма его присутствия среди живых. Утешение это или правда — пусть каждый решает сам.
+        <samp class="dc-lingua">Ἰσορροπία — ἡ ἀρετὴ τῶν ζώντων. — Равновесие — добродетель живущих.</samp>
+      </div>
+    </div>
+
+    <div class="dc dc-ocean">
+      <div class="dc-name">Прибрежный Предел</div>
+      <div class="dc-epit">«Море не знает стен — и мы не знаем»</div>
+      <div class="dc-text">Район Океании устроен иначе, нежели прочие: здесь нет жёстких границ, нет постоянных стен, нет строгой иерархии — лишь люди, море и договорённости, которые пересматриваются при нужде. <strong>Кристалл</strong> хранится в открытом святилище у самой воды, и к нему может прийти любой. Его сила питает навигацию и рыбный промысел, и — говорят — сами приливы вблизи города слегка иные, чем должны быть по природе. Жители Прибрежного Предела относятся к истории <em>Эфира</em> с тем особым почтением, что знакомо людям моря: он дал место для якоря, когда вокруг было лишь открытое и негостеприимное.
+        <samp class="dc-lingua">Mare non habet terminos — neque nos. — Море не знает границ — и мы не знаем.</samp>
+      </div>
+    </div>
+
+    <div class="dc dc-italy">
+      <div class="dc-name">Солнечные Аркады</div>
+      <div class="dc-epit">«Красота есть форма благодарности»</div>
+      <div class="dc-text">Итальянский квартал принял осколок с той же естественностью, с которой принимает гостя за стол: без лишних церемоний, но с полной душой и хорошим вином. Здесь <strong>Кристалл</strong> питает искусство — скульпторов, мозаичистов, певцов, ткачей, тех, кто делает фонтаны, и тех, кто пишет поэмы о фонтанах. Его свет отражается в воде на площадях и в витражах галерей. Это единственный квартал, где об <em>Эфире</em> поют — не молятся, не рассуждают в философских кружках, но именно поют: на рынках, за столами, в ночи праздников. Говорят, в старых песнях больше правды, чем в хрониках. Возможно.
+        <samp class="dc-lingua">Pulchritudo est gratiarum actio sine verbis. — Красота есть благодарность без слов.</samp>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="sep"><span>✦ &nbsp; Finis libri quinti &nbsp; ✦</span></div>
+
+
+<!-- ══ ПОСЛЕСЛОВИЕ ══ -->
+<div class="book">
+  <p class="book-label">Epilogus — Послесловие</p>
+  <h2 class="book-name">Слово Летописца к Тем, Кто Читает</h2>
+
+  <div class="chapter">
+    <div class="chap-head">
+      <span class="chap-num">Последнее слово</span>
+      <span class="chap-title">О том, что есть Эфирион ныне и вовеки</span>
+    </div>
+    <p class="verse">Говорят, что время лечит. Это неправда. Время делает боль привычной — и человек перестаёт замечать, что она всё ещё здесь. <strong>Эфирион</strong> живёт. Районы торгуют, спорят, иногда ссорятся из-за мелочей — но помнят, чем заканчиваются настоящие войны. Это знание стоит дорого, ибо за него было заплачено дорого. Да не будет оно растрачено на забвение.</p>
+    <p class="verse"><strong>Башня Первого Света</strong> стоит в центре города, и каждый может прийти к ней. Нет жрецов, нет запретов, нет входной платы. Просто камень, в котором живёт свет — и тишина, в которой каждый слышит то, что может услышать. Кто-то — прощение. Кто-то — предупреждение. Кто-то — ничего, лишь тихое гудение силы, пережившей то, что не должно было пережить ничто.</p>
+    <samp class="lingua">
+      Turris Lucis Primae stat. Caelum tenetur. Adhuc.
+      Ὁ πύργος ἕστηκεν. Ὁ οὐρανὸς κρατεῖται. Ἔτι.
+      <span class="lingua-tr">Башня Первого Света стоит. Небо держится. Пока. / Башня стоит. Небо держится. Ещё.</span>
+    </samp>
+    <p class="verse">Сии хроники записаны, дабы ни один живущий в Эфирионе не говорил: <em>«Не знал я. Не ведал я. Не было мне сказано».</em> Отныне — знает. Отныне — ведает. Что сделает с сим знанием — его выбор. Ибо <em>Эфир</em> взял на себя тяжесть неба. Но думать за людей — не брался. Это всегда было их работой. Пусть остаётся их работой и впредь.</p>
+    <div class="chronicler">
+      «Я дописываю сие в ночи. За окном — тихо. Башня светится так же, как светилась вчера, и год назад, и, говорят, сотню лет назад. Я не знаю, слышит ли нас кто-то там, внизу, под камнем и землёй. Я думаю — да. Я думаю, он всегда слышал. Просто отвечать было не его работой.»
+      <span class="chronicler-source">— последняя запись хранителя Тёмного Притвора, имя не сохранилось</span>
+    </div>
+  </div>
+</div>
+
+<div class="colophon">
+  <p>Записано хранителем Тёмного Притвора<br>в год, когда Башня не отбрасывала тени.</p>
+  <br>
+  <p><em>Aethere scripta, aethere servata, aethere legenda.</em></p>
+  <br>
+  <p>✦ &nbsp; Да стоит Эфирион. &nbsp; Да держится небо. &nbsp; ✦</p>
+</div>
+
+</div><!-- /page -->
+
+<script>
+  const s=document.getElementById('stars');
+  for(let i=0;i<110;i++){
+    const e=document.createElement('span');
+    const sz=Math.random()<0.12?2:1;
+    e.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;width:${sz}px;height:${sz}px;--d:${3+Math.random()*6}s;--del:-${Math.random()*8}s;opacity:${0.15+Math.random()*0.5}`;
+    s.appendChild(e);
+  }
+</script>
+</body>
+</html>
