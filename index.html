@@ -1,165 +1,220 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Эфирион — Книга Начал</title>
-<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cinzel:wght@400;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg: #0b090e;
-    --parchment: #e4dbc6;
-    --parchment-dark: #c2ae8e;
-    --purple-bright: #9b7fd4;
-    --purple-deep: #5c3d8f;
-    --gold: #c8a84b;
-    --gold-light: #e0c87a;
-    --red-muted: #9e4a4a;
-    --teal-muted: #3a8a72;
-  }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--bg);
-    color: var(--parchment);
-    font-family: 'EB Garamond', Georgia, serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-    position: relative;
-  }
-  body::before {
-    content: '';
-    position: fixed; inset: 0;
-    background:
-      radial-gradient(ellipse 70% 45% at 50% 0%, rgba(80,50,130,0.22) 0%, transparent 65%),
-      radial-gradient(ellipse 35% 55% at 85% 40%, rgba(60,35,100,0.1) 0%, transparent 55%),
-      radial-gradient(ellipse 40% 30% at 10% 80%, rgba(50,30,80,0.08) 0%, transparent 50%);
-    pointer-events: none; z-index: 0;
-  }
-  .stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
-  .stars span {
-    position: absolute; border-radius: 50%;
-    background: rgba(190,170,230,0.6);
-    animation: twinkle var(--d,4s) ease-in-out infinite var(--del,0s);
-  }
-  @keyframes twinkle {
-    0%,100% { opacity:0.15; transform:scale(1); }
-    50% { opacity:1; transform:scale(1.8); }
-  }
-  .page {
-    position: relative; z-index: 1;
-    max-width: 840px; margin: 0 auto;
-    padding: 4rem 2.8rem 7rem;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Эфирион — Книга Начал (три версии + герои)</title>
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Cinzel:wght@400;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* ========== ПОЛНЫЕ СТИЛИ (исходные масштабы) ========== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0b090e;
+      --parchment: #e4dbc6;
+      --parchment-dark: #c2ae8e;
+      --purple-bright: #9b7fd4;
+      --gold: #c8a84b;
+      --gold-light: #e0c87a;
+      --red-muted: #b05a5a;
+      --teal-muted: #4a9e72;
+    }
+    body {
+      background: var(--bg);
+      color: var(--parchment);
+      font-family: 'EB Garamond', Georgia, serif;
+      min-height: 100vh;
+      position: relative;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background: radial-gradient(ellipse 70% 45% at 50% 0%, rgba(80,50,130,0.22) 0%, transparent 65%);
+      pointer-events: none; z-index: 0;
+    }
+    .stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .stars span {
+      position: absolute; border-radius: 50%;
+      background: rgba(190,170,230,0.6);
+      animation: twinkle var(--d,4s) ease-in-out infinite var(--del,0s);
+    }
+    @keyframes twinkle {
+      0%,100% { opacity:0.15; transform:scale(1); }
+      50% { opacity:0.9; transform:scale(1.6); }
+    }
+    .page {
+      position: relative; z-index: 1;
+      max-width: 840px; margin: 0 auto;
+      padding: 4rem 2.8rem 7rem; /* исходные отступы */
+    }
 
-  /* COVER */
-  .cover { text-align:center; padding: 5rem 1rem 4.5rem; border-bottom: 1px solid rgba(155,127,212,0.2); margin-bottom: 4.5rem; }
-  .cover-eyebrow { font-family:'Cinzel',serif; font-size:0.68rem; letter-spacing:0.38em; color:var(--purple-bright); text-transform:uppercase; margin-bottom:1.8rem; opacity:0.75; }
-  .crystal-glyph { display:inline-block; width:72px; height:72px; margin-bottom:1.6rem; }
-  .cover-title { font-family:'Cinzel',serif; font-size:clamp(2.6rem,7vw,4.4rem); font-weight:600; color:var(--gold-light); letter-spacing:0.14em; line-height:1.05; margin-bottom:0.5rem; text-shadow:0 0 60px rgba(200,168,75,0.25); }
-  .cover-subtitle { font-family:'IM Fell English',serif; font-style:italic; font-size:1.2rem; color:var(--parchment-dark); opacity:0.7; margin-bottom:2.8rem; }
-  .cover-rule { display:flex; align-items:center; gap:1rem; justify-content:center; margin-bottom:2.8rem; }
-  .cover-rule::before,.cover-rule::after { content:''; flex:1; max-width:140px; height:1px; background:linear-gradient(to right,transparent,rgba(155,127,212,0.45),transparent); }
-  .cover-rule span { color:var(--purple-bright); opacity:0.55; font-size:1rem; }
-  .cover-verse { font-family:'IM Fell English',serif; font-style:italic; font-size:1.05rem; color:var(--parchment-dark); opacity:0.58; max-width:500px; margin:0 auto 2rem; line-height:1.9; }
-  .cover-lingua { font-family:'IM Fell English',serif; font-style:italic; font-size:0.88rem; color:var(--purple-bright); opacity:0.5; letter-spacing:0.05em; margin-top:1.2rem; }
+    /* Панель переключения (без изменений) */
+    .version-switch {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding: 0.5rem;
+      border-bottom: 1px solid rgba(155,127,212,0.2);
+    }
+    .version-btn {
+      background: none;
+      border: 1px solid rgba(155,127,212,0.4);
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      padding: 0.5rem 1.2rem;
+      border-radius: 30px;
+      color: var(--parchment-dark);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .version-btn.active {
+      background: rgba(155,127,212,0.2);
+      border-color: var(--gold);
+      color: var(--gold-light);
+      box-shadow: 0 0 8px rgba(200,168,75,0.2);
+    }
+    .version-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold-light);
+    }
+    .version-content {
+      transition: opacity 0.2s;
+    }
 
-  /* BOOK */
-  .book { margin-bottom:4rem; }
-  .book-label { font-family:'Cinzel',serif; font-size:0.62rem; letter-spacing:0.42em; color:var(--purple-bright); text-transform:uppercase; opacity:0.65; margin-bottom:0.35rem; }
-  .book-name { font-family:'Cinzel',serif; font-size:1.65rem; font-weight:600; color:var(--gold); letter-spacing:0.05em; margin-bottom:2.2rem; padding-bottom:0.8rem; border-bottom:1px solid rgba(200,168,75,0.18); }
-  .book-dark .book-label { color:#b05a5a; }
-  .book-dark .book-name { color:#c06060; border-bottom-color:rgba(192,96,96,0.18); }
-  .book-dark .chap-num { color:#b05a5a !important; }
-  .book-dark .lingua { color:#d49090; border-color:rgba(176,90,90,0.25); background:rgba(100,30,30,0.12); }
-  .book-end .book-label { color:#4a9e72; }
-  .book-end .book-name { color:#6abf96; border-bottom-color:rgba(74,158,114,0.2); }
-  .book-end .chap-num { color:#4a9e72 !important; }
+    /* Заглушка */
+    .under-construction {
+      text-align: center;
+      padding: 4rem 2rem;
+      background: rgba(255,255,255,0.02);
+      border: 1px dashed rgba(155,127,212,0.3);
+      border-radius: 12px;
+      margin: 2rem 0;
+    }
+    .under-construction h3 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.8rem;
+      color: var(--gold-light);
+      margin-bottom: 1rem;
+    }
+    .under-construction p {
+      font-size: 1.1rem;
+      opacity: 0.7;
+      font-style: italic;
+    }
 
-  /* CHAPTER */
-  .chapter { margin-bottom:2.8rem; }
-  .chap-head { display:flex; align-items:baseline; gap:1rem; margin-bottom:1rem; }
-  .chap-num { font-family:'Cinzel',serif; font-size:0.62rem; letter-spacing:0.3em; color:var(--purple-bright); opacity:0.6; white-space:nowrap; padding-top:3px; }
-  .chap-title { font-family:'Cinzel',serif; font-size:1.05rem; font-weight:400; color:var(--parchment); letter-spacing:0.04em; }
+    /* ОСНОВНЫЕ КЛАССЫ — исходные размеры */
+    .cover { text-align:center; padding: 5rem 1rem 4.5rem; border-bottom: 1px solid rgba(155,127,212,0.2); margin-bottom: 4.5rem; }
+    .cover-eyebrow { font-family:'Cinzel',serif; font-size:0.68rem; letter-spacing:0.38em; color:var(--purple-bright); text-transform:uppercase; margin-bottom:1.8rem; opacity:0.75; }
+    .crystal-glyph { display:inline-block; width:72px; height:72px; margin-bottom:1.6rem; }
+    .cover-title { font-family:'Cinzel',serif; font-size:clamp(2.6rem,7vw,4.4rem); font-weight:600; color:var(--gold-light); letter-spacing:0.14em; line-height:1.05; margin-bottom:0.5rem; text-shadow:0 0 60px rgba(200,168,75,0.25); }
+    .cover-subtitle { font-family:'IM Fell English',serif; font-style:italic; font-size:1.2rem; color:var(--parchment-dark); opacity:0.7; margin-bottom:2.8rem; }
+    .cover-rule { display:flex; align-items:center; gap:1rem; justify-content:center; margin-bottom:2.8rem; }
+    .cover-rule::before,.cover-rule::after { content:''; flex:1; max-width:140px; height:1px; background:linear-gradient(to right,transparent,rgba(155,127,212,0.45),transparent); }
+    .cover-rule span { color:var(--purple-bright); opacity:0.55; font-size:1rem; }
+    .cover-verse { font-family:'IM Fell English',serif; font-style:italic; font-size:1.05rem; color:var(--parchment-dark); opacity:0.58; max-width:500px; margin:0 auto 2rem; line-height:1.9; }
+    .cover-lingua { font-family:'IM Fell English',serif; font-style:italic; font-size:0.88rem; color:var(--purple-bright); opacity:0.5; letter-spacing:0.05em; margin-top:1.2rem; }
 
-  /* VERSE */
-  .verse { font-size:1.12rem; line-height:2.05; color:rgba(228,219,198,0.8); margin-bottom:0.6rem; text-indent:2em; }
-  .verse:first-of-type::first-letter {
-    font-family:'Cinzel',serif; font-size:3.6rem; float:left;
-    line-height:0.72; margin-right:0.08em; margin-top:0.1em;
-    color:var(--gold);
-  }
-  .verse em { font-style:italic; color:var(--parchment); }
-  .verse strong { font-weight:500; color:var(--gold-light); font-style:normal; }
-  .verse.no-indent { text-indent:0; }
+    .book { margin-bottom:4rem; }
+    .book-label { font-family:'Cinzel',serif; font-size:0.62rem; letter-spacing:0.42em; color:var(--purple-bright); text-transform:uppercase; opacity:0.65; margin-bottom:0.35rem; }
+    .book-name { font-family:'Cinzel',serif; font-size:1.65rem; font-weight:600; color:var(--gold); letter-spacing:0.05em; margin-bottom:2.2rem; padding-bottom:0.8rem; border-bottom:1px solid rgba(200,168,75,0.18); }
+    .book-dark .book-label { color:#b05a5a; }
+    .book-dark .book-name { color:#c06060; border-bottom-color:rgba(192,96,96,0.18); }
+    .book-dark .chap-num { color:#b05a5a !important; }
+    .book-dark .lingua { color:#d49090; border-color:rgba(176,90,90,0.25); background:rgba(100,30,30,0.12); }
+    .book-end .book-label { color:#4a9e72; }
+    .book-end .book-name { color:#6abf96; border-bottom-color:rgba(74,158,114,0.2); }
+    .book-end .chap-num { color:#4a9e72 !important; }
 
-  /* LINGUA — sacred language inserts */
-  .lingua {
-    display:block; margin:1.4rem 1rem 1.4rem 2rem;
-    font-family:'IM Fell English',serif; font-style:italic;
-    font-size:1rem; color:rgba(155,127,212,0.8);
-    border-left:2px solid rgba(155,127,212,0.25);
-    padding:0.6rem 1rem;
-    background:rgba(60,35,100,0.1);
-    border-radius:0 3px 3px 0;
-    line-height:1.8;
-  }
-  .lingua-tr { font-size:0.82rem; color:rgba(194,174,142,0.5); font-style:normal; display:block; margin-top:0.25rem; letter-spacing:0.02em; }
+    .chapter { margin-bottom:2.8rem; }
+    .chap-head { display:flex; align-items:baseline; gap:1rem; margin-bottom:1rem; }
+    .chap-num { font-family:'Cinzel',serif; font-size:0.62rem; letter-spacing:0.3em; color:var(--purple-bright); opacity:0.6; white-space:nowrap; padding-top:3px; }
+    .chap-title { font-family:'Cinzel',serif; font-size:1.05rem; font-weight:400; color:var(--parchment); letter-spacing:0.04em; }
 
-  /* QUOTE — eyewitness or chronicler */
-  .chronicler {
-    margin:1.5rem 0 1.5rem 1.5rem;
-    padding:0.7rem 1.2rem;
-    border-left:1px solid rgba(200,168,75,0.2);
-    font-family:'IM Fell English',serif; font-style:italic;
-    font-size:1rem; color:rgba(224,200,122,0.6);
-    line-height:1.85;
-  }
-  .chronicler-source { display:block; font-size:0.78rem; color:rgba(194,174,142,0.38); font-style:normal; margin-top:0.4rem; letter-spacing:0.06em; text-transform:uppercase; }
+    .verse { font-size:1.12rem; line-height:2.05; color:rgba(228,219,198,0.8); margin-bottom:0.6rem; text-indent:2em; }
+    .verse:first-of-type::first-letter {
+      font-family:'Cinzel',serif; font-size:3.6rem; float:left;
+      line-height:0.72; margin-right:0.08em; margin-top:0.1em;
+      color:var(--gold);
+    }
+    .verse em { font-style:italic; color:var(--parchment); }
+    .verse strong { font-weight:500; color:var(--gold-light); font-style:normal; }
+    .verse.no-indent { text-indent:0; }
 
-  /* SEPARATOR */
-  .sep { display:flex; align-items:center; gap:1.2rem; margin:3.2rem 0; }
-  .sep::before,.sep::after { content:''; flex:1; height:1px; background:linear-gradient(to right,transparent,rgba(155,127,212,0.28),transparent); }
-  .sep span { font-family:'Cinzel',serif; font-size:0.58rem; letter-spacing:0.45em; color:var(--purple-bright); opacity:0.45; text-transform:uppercase; white-space:nowrap; }
+    .lingua {
+      display:block; margin:1.4rem 1rem 1.4rem 2rem;
+      font-family:'IM Fell English',serif; font-style:italic;
+      font-size:1rem; color:rgba(155,127,212,0.8);
+      border-left:2px solid rgba(155,127,212,0.25);
+      padding:0.6rem 1rem;
+      background:rgba(60,35,100,0.1);
+      border-radius:0 3px 3px 0;
+      line-height:1.8;
+    }
+    .lingua-tr { font-size:0.82rem; color:rgba(194,174,142,0.5); font-style:normal; display:block; margin-top:0.25rem; letter-spacing:0.02em; }
 
-  /* DISTRICTS */
-  .districts-intro { font-family:'IM Fell English',serif; font-style:italic; font-size:1.1rem; color:var(--parchment-dark); opacity:0.68; margin-bottom:2.5rem; line-height:1.9; text-align:center; padding:0 0.5rem; }
-  .district-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:1.6rem; margin-bottom:3rem; }
-  .dc {
-    border:1px solid rgba(155,127,212,0.15); border-radius:4px;
-    padding:1.6rem 1.7rem; background:rgba(255,255,255,0.022);
-    position:relative; overflow:hidden;
-  }
-  .dc::before { content:''; position:absolute; top:0; left:0; width:3px; height:100%; background:var(--acc,var(--purple-bright)); opacity:0.65; }
-  .dc-steam { --acc:#b8860b; }
-  .dc-elves { --acc:#4a9e6e; }
-  .dc-gothic { --acc:#8b3a8b; }
-  .dc-asia  { --acc:#c04040; }
-  .dc-ocean { --acc:#2e7fbf; }
-  .dc-italy { --acc:#c8824a; }
-  .dc-name { font-family:'Cinzel',serif; font-size:0.92rem; font-weight:600; color:var(--gold-light); letter-spacing:0.1em; margin-bottom:0.2rem; }
-  .dc-epit { font-family:'IM Fell English',serif; font-style:italic; font-size:0.84rem; color:var(--parchment-dark); opacity:0.6; margin-bottom:0.85rem; }
-  .dc-text { font-size:0.98rem; line-height:1.88; color:rgba(228,219,198,0.72); }
-  .dc-text em { font-style:italic; color:rgba(228,219,198,0.9); }
-  .dc-lingua { display:block; margin-top:0.8rem; font-family:'IM Fell English',serif; font-style:italic; font-size:0.85rem; color:rgba(155,127,212,0.65); }
+    .chronicler {
+      margin:1.5rem 0 1.5rem 1.5rem;
+      padding:0.7rem 1.2rem;
+      border-left:1px solid rgba(200,168,75,0.2);
+      font-family:'IM Fell English',serif; font-style:italic;
+      font-size:1rem; color:rgba(224,200,122,0.6);
+      line-height:1.85;
+    }
+    .chronicler-source { display:block; font-size:0.78rem; color:rgba(194,174,142,0.38); font-style:normal; margin-top:0.4rem; letter-spacing:0.06em; text-transform:uppercase; }
 
-  /* COLOPHON */
-  .colophon { text-align:center; padding-top:3rem; border-top:1px solid rgba(155,127,212,0.13); }
-  .colophon p { font-family:'IM Fell English',serif; font-style:italic; font-size:0.92rem; color:var(--parchment-dark); opacity:0.42; line-height:2; }
+    .sep { display:flex; align-items:center; gap:1.2rem; margin:3.2rem 0; }
+    .sep::before,.sep::after { content:''; flex:1; height:1px; background:linear-gradient(to right,transparent,rgba(155,127,212,0.28),transparent); }
+    .sep span { font-family:'Cinzel',serif; font-size:0.58rem; letter-spacing:0.45em; color:var(--purple-bright); opacity:0.45; text-transform:uppercase; white-space:nowrap; }
 
-  @media(max-width:600px){
-    .page{padding:2.5rem 1.2rem 5rem;}
-    .district-grid{grid-template-columns:1fr;}
-    .cover-title{font-size:2.3rem;}
-    .lingua{margin-left:0.5rem;}
-  }
-</style>
+    .districts-intro { font-family:'IM Fell English',serif; font-style:italic; font-size:1.1rem; color:var(--parchment-dark); opacity:0.68; margin-bottom:2.5rem; line-height:1.9; text-align:center; padding:0 0.5rem; }
+    .district-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:1.6rem; margin-bottom:3rem; }
+    .dc {
+      border:1px solid rgba(155,127,212,0.15); border-radius:4px;
+      padding:1.6rem 1.7rem; background:rgba(255,255,255,0.022);
+      position:relative; overflow:hidden;
+    }
+    .dc::before { content:''; position:absolute; top:0; left:0; width:3px; height:100%; background:var(--acc,var(--purple-bright)); opacity:0.65; }
+    .dc-steam { --acc:#b8860b; }
+    .dc-elves { --acc:#4a9e6e; }
+    .dc-gothic { --acc:#8b3a8b; }
+    .dc-asia  { --acc:#c04040; }
+    .dc-ocean { --acc:#2e7fbf; }
+    .dc-italy { --acc:#c8824a; }
+    .dc-name { font-family:'Cinzel',serif; font-size:0.92rem; font-weight:600; color:var(--gold-light); letter-spacing:0.1em; margin-bottom:0.2rem; }
+    .dc-epit { font-family:'IM Fell English',serif; font-style:italic; font-size:0.84rem; color:var(--parchment-dark); opacity:0.6; margin-bottom:0.85rem; }
+    .dc-text { font-size:0.98rem; line-height:1.88; color:rgba(228,219,198,0.72); }
+    .dc-text em { font-style:italic; color:rgba(228,219,198,0.9); }
+    .dc-lingua { display:block; margin-top:0.8rem; font-family:'IM Fell English',serif; font-style:italic; font-size:0.85rem; color:rgba(155,127,212,0.65); }
+
+    .colophon { text-align:center; padding-top:3rem; border-top:1px solid rgba(155,127,212,0.13); }
+    .colophon p { font-family:'IM Fell English',serif; font-style:italic; font-size:0.92rem; color:var(--parchment-dark); opacity:0.42; line-height:2; }
+
+    @media(max-width:600px){
+      .page{padding:2.5rem 1.2rem 5rem;}
+      .district-grid{grid-template-columns:1fr;}
+      .cover-title{font-size:2.3rem;}
+      .lingua{margin-left:0.5rem;}
+    }
+	</style>
 </head>
 <body>
-<div class="stars" aria-hidden="true" id="stars"></div>
+<div class="stars" id="stars"></div>
 <div class="page">
 
-<!-- ══ ОБЛОЖКА ══ -->
+  <!-- КНОПКИ ПЕРЕКЛЮЧЕНИЯ -->
+  <div class="version-switch">
+    <button class="version-btn active" data-version="full">📖 Полная версия</button>
+    <button class="version-btn" data-version="medium">📜 Средняя (с цитатами)</button>
+    <button class="version-btn" data-version="short">⚡ Максимально краткая</button>
+    <button class="version-btn" data-version="apostles">📖 Герои (в разработке)</button>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- БЛОК ПОЛНОЙ ВЕРСИИ -->
+  <!-- ============================================================ -->
+  <div id="full-version" class="version-content">
 <div class="cover">
   <p class="cover-eyebrow">Liber Primordialis Aethyrionis — Книга первоначал Эфириона</p>
   <svg class="crystal-glyph" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -504,17 +559,306 @@
   <br>
   <p>✦ &nbsp; Да стоит Эфирион. &nbsp; Да держится небо. &nbsp; ✦</p>
 </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- БЛОК СРЕДНЕЙ ВЕРСИИ (с полными цитатами) -->
+  <!-- ============================================================ -->
+  <div id="medium-version" class="version-content" style="display: none;">
+    <div class="cover">
+    <p class="cover-eyebrow">Liber Primordialis Aethyrionis — Книга первоначал Эфириона</p>
+    <svg class="crystal-glyph" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="36,5 58,26 50,65 22,65 14,26" fill="rgba(80,50,130,0.12)" stroke="#9b7fd4" stroke-width="0.8"/>
+      <polygon points="36,5 58,26 36,21" fill="rgba(155,127,212,0.18)" stroke="#9b7fd4" stroke-width="0.5"/>
+      <polygon points="36,5 14,26 36,21" fill="rgba(80,50,130,0.22)" stroke="#9b7fd4" stroke-width="0.5"/>
+      <polygon points="36,21 58,26 50,65 22,65 14,26" fill="rgba(60,35,100,0.08)" stroke="rgba(155,127,212,0.3)" stroke-width="0.4"/>
+      <line x1="36" y1="5" x2="36" y2="65" stroke="rgba(155,127,212,0.25)" stroke-width="0.5" stroke-dasharray="3,4"/>
+      <circle cx="36" cy="21" r="3" fill="#c8a84b" opacity="0.85"/>
+    </svg>
+    <h1 class="cover-title">Эфирион</h1>
+    <p class="cover-subtitle">Книга Начал, Падения и Завета Семи Осколков</p>
+    <div class="cover-rule"><span>✦</span></div>
+    <p class="cover-verse">Записано в год Тихого Возвращения, дабы ни единый из живущих не говорил: <em>«Не знал я. Не ведал я. Не было мне сказано»</em>. Ибо отныне — сказано.</p>
+    <p class="cover-lingua">Aethere scripta, aethere servata. — Эфиром написано, эфиром сохранено.</p>
+  </div>
+
+  <!-- КНИГА I -->
+  <div class="book">
+    <p class="book-label">Liber I — Книга первая</p>
+    <h2 class="book-name">О Начале, Жертве и Свете, Собравшем Народы</h2>
+    <div class="chapter">
+      <div class="chap-head"><span class="chap-num">Глава I</span><span class="chap-title">Об Атланте, коий принял тяжесть неба</span></div>
+      <p class="verse">В начале небо падало. Не разом, но неотвратимо. Но был <strong>Эфир</strong> — существо не из плоти, из той субстанции, что древние летописцы нарекли <strong>Archaion Pneuma</strong> — «дух прежде духов». Он поднял руки и вознёс <strong>Кристалл</strong> — первый свет (<em>lux prima</em>). Земля поднималась по его телу, забирая его вглубь, но он не сдвинулся, ибо иначе рухнуло бы небо. Лишь Кристалл сиял над поверхностью — одинокий, как сердце погребённого бога.</p>
+      <samp class="lingua">Aether surrexit et caelum tenuit manibus suis, et factum est firmamentum super terram.<span class="lingua-tr">Эфир восстал и удержал небо руками своими, и стала твердь над землёю.</span></samp>
+      <div class="chronicler">«Мы знаем о нём лишь то, что он стоял. Мы не знаем, думал ли он. Мы не знаем, скорбел ли он. Мы знаем лишь: пока он стоял — небо держалось. И этого достаточно, чтобы считать его величайшим из всех, кто когда-либо жил на сей земле.»<span class="chronicler-source">— из «Первых Свидетельств», хранилище Тёмного Притвора, том I</span></div>
+    </div>
+    <div class="chapter">
+      <div class="chap-head"><span class="chap-num">Глава II</span><span class="chap-title">О том, как свет собрал народы</span></div>
+      <p class="verse">Свет Кристалла звал, не голосом, но тягой в груди. Первыми пришли странники без имени. Земля вблизи Кристалла рожала урожай трижды в год, тьма отступала. Поселение росло, и впервые прозвучало слово <strong>Эфирион</strong> — в честь того, кто спал под ними, не зная, что над его спиной вырос город.</p>
+      <samp class="lingua">Lux non fugitur — sequitur. Qui semel vidit, non potest non venire.<span class="lingua-tr">Свет не бежит — следует. Кто единожды увидел его, не может не прийти.</span></samp>
+    </div>
+  </div>
+  <div class="sep"><span>✦ &nbsp; Finis libri primi &nbsp; ✦</span></div>
+
+  <!-- КНИГА II -->
+  <div class="book">
+    <p class="book-label">Liber II — Книга вторая</p>
+    <h2 class="book-name">О Расколе, Пяти Смельчаках и Пришествии Незнакомки</h2>
+    <div class="chapter">
+      <div class="chap-head"><span class="chap-num">Глава III</span><span class="chap-title">О том, как множество стало ядом</span></div>
+      <p class="verse">Когда людей стало слишком много, власть замолчала. Районы говорили каждый на своём наречии, и молчание власти стало разрешением на всякий произвол. Тогда вышли <strong>пятеро</strong> — не воины, не мудрецы, а те, у кого хватило голоса перекричать толпу. Народ, изголодавшийся по обещаниям, поверил им.</p>
+      <samp class="lingua">Silentium potestatis — vox anarchiae. Ubi rector tacet, omnes loquuntur.<span class="lingua-tr">Молчание власти — голос безвластия. Где правитель умолкает, говорят все.</span></samp>
+    </div>
+    <div class="chapter">
+      <div class="chap-head"><span class="chap-num">Глава IV</span><span class="chap-title">О пришествии той, что звалась Кираку</span></div>
+      <p class="verse">Однажды один из пятерых привёл в Эфирион незнакомку. Звали её <strong>Кираку</strong>. Тихая, почти незаметная, но смотрела так, что запоминала не лица, а то, что за лицами. Она слушала, запоминала каждую слабость, появлялась в нужный час. Вскоре она стала хозяйкой — и никто не заметил перехода.</p>
+      <div class="chronicler">«Я видел её в первый день. Она стояла у ворот и смотрела на Башню — долго, не моргая. Я подумал тогда: вот человек, который что-то ищет. Я не подумал тогда: вот человек, который уже нашёл.»<span class="chronicler-source">— из показаний привратника восточных ворот, архив Серебряного Предела</span></div>
+      <samp class="lingua">Hospes intrat, domina manet. Nemo vidit transitum.<span class="lingua-tr">Гостья входит, хозяйка остаётся. Никто не видел перехода.</span></samp>
+    </div>
+  </div>
+  <div class="sep"><span>✦ &nbsp; Finis libri secundi &nbsp; ✦</span></div>
+
+  <!-- КНИГА III: ТЬМА -->
+  <div class="book book-dark">
+    <p class="book-label">Liber III — Книга третья</p>
+    <h2 class="book-name">О Яде Кираку, Войне Районов и Убийстве Прародителя</h2>
+    <div class="chapter">
+      <div class="chap-head"><span class="chap-num">Глава V</span><span class="chap-title">О природе чар и о том, как падают сильные</span></div>
+      <p class="verse">Кираку не принуждала и не лгала. Она слушала внимательнее всех, помнила каждую боль и появлялась именно тогда, когда человек оставался в сомнении. Медленно, как яд в воде, большинство из пятерых стали её голосами. Устояли лишь <strong>двое</strong> — <em>Veritas</em> и <em>Vigil</em>, Правдивый и Бдящий. Их выгнали в ночь, и Эфирион остался без тех, кто мог бы произнести слово «нет».</p>
+      <samp class="lingua">Non vi, non metu — sed cura ficta et memoria veneni. Ἡ ἀγάπη ψευδής δεσμός ἐστι χαλεπώτερος σιδήρου.<span class="lingua-tr">Не силою, не страхом — но притворной заботой и памятью яда. Ложная любовь — оковы крепче железа.</span></samp>
+      <div class="chronicler">«Veritas сказал мне после: "Я понял в тот же день, когда она пришла. Но я не знал, как объяснить то, что знал. А когда нашёл слова — было уже слишком поздно, чтобы кто-то стал слушать."»<span class="chronicler-source">— из личных записей летописца Тёмного Притвора, том VI, страница утрачена</span></div>
+    </div>
+    <div class="chapter">
+      <div class="chap-head"><span class="chap-num">Глава VI</span><span class="chap-title">О природе Кираку, открывшейся в час крови</span></div>
+      <p class="verse">Кираку не была человеком. В хрониках её именуют <em>Daemonium Cupiditatis</em> — демон алчности, или <em>ἡ Κενή</em>, Пустая. Она пришла за силой Кристалла, которая держала небо тысячи лет.</p>
+      <samp class="lingua">Daemonium Cupiditatis antiquius est omnibus urbibus et omnibus regibus. Nata est ex prima invidia, quando lux prima apparuit in tenebris.<span class="lingua-tr">Демон алчности древнее всех городов и всех царей. Рождён из первой зависти — в тот миг, когда первый свет явился во тьме.</span></samp>
+      <div class="chronicler">«Она смотрела на Башню так, как смотрит голодный на хлеб за стеклом. С такою же тоской. С такою же ненавистью к стеклу.»<span class="chronicler-source">— свидетельство безымянного горожанина, записано в архивах Солнечных Аркад</span></div>
+    </div>
+    <div class="chapter">
+      <div class="chap-head"><span class="chap-num">Глава VII</span><span class="chap-title">О войне, пришедшей изнутри</span></div>
+      <p class="verse">Кираку посеяла вражду: сначала резкие слова, потом закрытые ворота, потом первая кровь. Эфирион начал пожирать себя. А глубоко под землёй Эфир слышал, как его народ убивает друг друга — и не мог сдвинуться, ибо рухнуло бы небо.</p>
+      <samp class="lingua">Civitas contra se divisa non stabit. Haec lex prima est et ultima. Ἡ πόλις ἑαυτὴν δάκνουσα οὐ σῴζεται.<span class="lingua-tr">Город, разделившийся против себя, не устоит. Сей закон — первый и последний. Город, кусающий сам себя, не спасается.</span></samp>
+      <div class="chronicler">«Говорят, что в ночь самой страшной битвы — той, что жгла Квартал Восходящей Черты три дня, — земля вздрагивала. Не от взрывов. Иначе. Как вздрагивает человек, когда плачет, но не позволяет себе издать звука.»<span class="chronicler-source">— из «Книги Пепла», Квартал Восходящей Черты, предположительно очевидец</span></div>
+    </div>
+    <div class="chapter">
+      <div class="chap-head"><span class="chap-num">Глава VIII</span><span class="chap-title">Об убийстве Прародителя и расколе Кристалла</span></div>
+      <p class="verse">По слову Кираку люди пошли туда, где земля хранила тепло древнего тела, и убили <strong>Эфира</strong>. Кристалл раскололся на семь осколков. Небо прогнулось, звёзды сдвинулись. Кираку протянула руки к осколкам — и ничего не получила. Сила рассыпалась, как пламя, схваченное ладонью.</p>
+      <samp class="lingua">O Aether, pater sine nomine, occisus es a filiis quos non noverat. Ἰδοὺ ὁ πατὴρ ἔπεσεν, καὶ οὐδεὶς ἔκλαυσεν ἐν ἐκείνῃ τῇ ὥρᾳ.<span class="lingua-tr">О Эфир, отец без имени, убит ты сынами, которых не знал. Вот — пал отец, и никто не заплакал в тот час.</span></samp>
+      <div class="chronicler">«Те, кто видел её лицо в тот момент — говорили по-разному. Одни: ярость. Другие: пустота. Я думаю, это одно и то же лицо, просто смотревшие глядели с разных сторон.»<span class="chronicler-source">— из личного дневника неустановленного автора, найден в руинах западной галереи</span></div>
+    </div>
+    <div class="chapter">
+      <div class="chap-head"><span class="chap-num">Глава IX</span><span class="chap-title">О бегстве той, что не пожелала признать своё</span></div>
+      <p class="verse"><em>Daemonium Cupiditatis</em> не умеет оставаться там, где стало пусто. Кираку растворилась в ночи без следа, как тень, когда гасят свет.</p>
+      <samp class="lingua">Fugit quae non potest vincere. Sed fuga non est finis — est initium aliud.<span class="lingua-tr">Бежит та, что не может победить. Но бегство — не конец: это иное начало.</span></samp>
+    </div>
+  </div>
+  <div class="sep"><span>✦ &nbsp; Finis libri tertii &nbsp; ✦</span></div>
+
+  <!-- КНИГА IV -->
+  <div class="book book-end">
+    <p class="book-label">Liber IV — Книга четвёртая</p>
+    <h2 class="book-name">О Возвращении Изгнанных, Башне и Завете Семи</h2>
+    <div class="chapter">
+      <div class="chap-head"><span class="chap-num">Глава X</span><span class="chap-title">О тех, кто вернулся без слова упрёка</span></div>
+      <p class="verse">Изгнанные вернулись на рассвете. Народ узнал их, посторонился, подал воды. В сердце города, там, где земля хранила отзвук тепла погребённого Эфира, возвели <strong>Башню Первого Света</strong>. В основание вложили самый крупный осколок Кристалла. Остальные шесть разнесли по районам. Рана не заживает без шрама, но у города появилось новое сердце.</p>
+      <samp class="lingua">Redeunt qui iuste eiecti non fuerunt. Et redeunt non ut ulciscantur, sed ut aedificent.<span class="lingua-tr">Возвращаются те, кто изгнан был несправедливо. И возвращаются не мстить — но строить.</span></samp>
+    </div>
+    <div class="chapter">
+      <div class="chap-head"><span class="chap-num">Глава XI</span><span class="chap-title">О последнем хаосе и слове, данном навек</span></div>
+      <p class="verse">Новая власть произнесла единственное обещание, записанное во всех шести районах:</p>
+      <samp class="lingua">Dona maiorum servabimus. Pacem inter partes tenebimus. Et numquam obliviscemur quo pretio caelum stat super nos.<span class="lingua-tr">Дары предков сохраним. Мир между частями удержим. И никогда не забудем, какою ценою стоит небо над нами.</span></samp>
+      <p class="verse">С того дня минуло много лет. Город стоит. Районы держат осколки. Башня Первого Света возвышается в центре — память о том, кто принял тяжесть мира, чтобы другие могли жить, не зная этой тяжести.</p>
+    </div>
+  </div>
+  <div class="sep"><span>✦ &nbsp; Finis libri quarti &nbsp; ✦</span></div>
+
+  <!-- КНИГА V: РАЙОНЫ (оставлены как есть, они и так краткие) -->
+  <div class="book">
+    <p class="book-label">Liber V — Книга пятая</p>
+    <h2 class="book-name">О Шести Осколках и Шести Заветах Народов</h2>
+    <p class="districts-intro"><em>Ибо сказано в древних хрониках: где осколок — там и народ, что хранит его. И каждый народ хранит по-своему. И в этом — сила их. И в этом — различие их. И да не будет различие поводом для войны — ибо единожды уже было.</em></p>
+    <div class="district-grid">
+      <div class="dc dc-steam"><div class="dc-name">Кованый Округ</div><div class="dc-epit">«Кто понял огонь — тот понял всё остальное»</div><div class="dc-text">Кристалл вмурован в основание центрального котла и питает машины. Дым не унимается ни днём ни ночью. Местные жители говорят, что Эфир был первым инженером.<samp class="dc-lingua">Fac et intellige. — Делай и поймёшь.</samp></div></div>
+      <div class="dc dc-elves"><div class="dc-name">Серебряный Предел</div><div class="dc-epit">«Свет помнит то, что забыло слово»</div><div class="dc-text">Эльфы вплели осколок в магию, в ритуалы, которые передаются без записи. В ночи можно услышать, как поёт осколок — голос Эфира.<samp class="dc-lingua">Φῶς μνημονεύει ὃ λόγος ἐπελάθετο. — Свет помнит то, что забыло слово.</samp></div></div>
+      <div class="dc dc-gothic"><div class="dc-name">Тёмный Притвор</div><div class="dc-epit">«Лишь тот, кто знает тьму, умеет ценить свет»</div><div class="dc-text">Кристалл хранится в подземном соборе, доступ открыт лишь в определённые часы. Здесь написаны самые подробные хроники Кираку — из принципа: <samp class="dc-lingua">Ne iterum. — Да не повторится.</samp></div></div>
+      <div class="dc dc-asia"><div class="dc-name">Квартал Восходящей Черты</div><div class="dc-epit">«Равновесие есть высший и труднейший из трудов»</div><div class="dc-text">Осколок — ось жизни: его свет используют для медитаций, его пульс отмеряет часы. Пережив трёхдневный пожар, здесь сильнее всего чтут покой.<samp class="dc-lingua">Ἰσορροπία — ἡ ἀρετὴ τῶν ζώντων. — Равновесие — добродетель живущих.</samp></div></div>
+      <div class="dc dc-ocean"><div class="dc-name">Прибрежный Предел</div><div class="dc-epit">«Море не знает стен — и мы не знаем»</div><div class="dc-text">Кристалл хранится в открытом святилище у самой воды, питает навигацию и рыбный промысел. Приливы здесь слегка иные, чем должно.<samp class="dc-lingua">Mare non habet terminos — neque nos. — Море не знает границ — и мы не знаем.</samp></div></div>
+      <div class="dc dc-italy"><div class="dc-name">Солнечные Аркады</div><div class="dc-epit">«Красота есть форма благодарности»</div><div class="dc-text">Кристалл питает искусство — скульпторов, мозаичистов, певцов. Единственный квартал, где об Эфире поют на рынках и в праздники.<samp class="dc-lingua">Pulchritudo est gratiarum actio sine verbis. — Красота есть благодарность без слов.</samp></div></div>
+    </div>
+  </div>
+  <div class="sep"><span>✦ &nbsp; Finis libri quinti &nbsp; ✦</span></div>
+
+  <!-- ПОСЛЕСЛОВИЕ -->
+  <div class="book">
+    <p class="book-label">Epilogus — Послесловие</p>
+    <h2 class="book-name">Слово Летописца к Тем, Кто Читает</h2>
+    <div class="chapter">
+      <div class="chap-head"><span class="chap-num">Последнее слово</span><span class="chap-title">О том, что есть Эфирион ныне и вовеки</span></div>
+      <p class="verse">Говорят, что время лечит. Это неправда. Время делает боль привычной. Эфирион живёт. Районы помнят, чем заканчиваются настоящие войны. Башня Первого Света стоит открытой для всех. Нет жрецов, нет запретов — просто камень, в котором живёт свет.</p>
+      <samp class="lingua">Turris Lucis Primae stat. Caelum tenetur. Adhuc. Ὁ πύργος ἕστηκεν. Ὁ οὐρανὸς κρατεῖται. Ἔτι.<span class="lingua-tr">Башня Первого Света стоит. Небо держится. Пока. Башня стоит. Небо держится. Ещё.</span></samp>
+      <p class="verse">Сии хроники записаны, дабы никто не говорил: «Не знал я. Не ведал я. Не было мне сказано». Отныне знает. Что сделает с этим знанием — его выбор. Эфир взял на себя тяжесть неба. Но думать за людей — не брался.</p>
+      <div class="chronicler">«Я дописываю сие в ночи. За окном — тихо. Башня светится так же, как светилась вчера, и год назад, и, говорят, сотню лет назад. Я не знаю, слышит ли нас кто-то там, внизу, под камнем и землёй. Я думаю — да. Я думаю, он всегда слышал. Просто отвечать было не его работой.»<span class="chronicler-source">— последняя запись хранителя Тёмного Притвора, имя не сохранилось</span></div>
+    </div>
+  </div>
+
+  <div class="colophon">
+    <p>Записано хранителем Тёмного Притвора в год, когда Башня не отбрасывала тени.</p>
+    <p><em>Aethere scripta, aethere servata, aethere legenda.</em></p>
+    <p>✦ &nbsp; Да стоит Эфирион. &nbsp; Да держится небо. &nbsp; ✦</p>
+  </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- БЛОК МАКСИМАЛЬНО КРАТКОЙ ВЕРСИИ (без цитат) -->
+  <!-- ============================================================ -->
+  <div id="short-version" class="version-content" style="display: none;">
+  <div class="cover">
+  <p class="cover-eyebrow">Liber Primordialis Aethyrionis</p>
+  <svg class="crystal-glyph" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="36,5 58,26 50,65 22,65 14,26" fill="rgba(80,50,130,0.12)" stroke="#9b7fd4" stroke-width="0.8"/>
+    <polygon points="36,5 58,26 36,21" fill="rgba(155,127,212,0.18)" stroke="#9b7fd4" stroke-width="0.5"/>
+    <polygon points="36,21 58,26 50,65 22,65 14,26" fill="rgba(60,35,100,0.08)" stroke="rgba(155,127,212,0.3)" stroke-width="0.4"/>
+    <circle cx="36" cy="21" r="3" fill="#c8a84b" opacity="0.85"/>
+  </svg>
+  <h1 class="cover-title">Эфирион</h1>
+  <p class="cover-subtitle">Книга Начал, Падения и Завета Семи Осколков</p>
+  <div class="cover-rule"><span>✦</span></div>
+  <p class="cover-verse">«Не знал я. Не ведал я. Не было мне сказано». Отныне — сказано.</p>
+</div>
+
+<div class="book">
+  <p class="book-label">Liber I</p>
+  <h2 class="book-name">О Начале</h2>
+  <div class="chapter">
+    <div class="chap-head"><span class="chap-num">Глава 1</span><span class="chap-title">Эфир и Кристалл</span></div>
+    <p class="verse">Небо падало. Эфир — существо из праматерии — поднял Кристалл и удержал небо. Земля поглотила его, но Кристалл сиял. Пока он стоял, небо держалось.</p>
+  </div>
+  <div class="chapter">
+    <div class="chap-head"><span class="chap-num">Глава 2</span><span class="chap-title">Рождение города</span></div>
+    <p class="verse">Свет Кристалла привёл странников. Земля давала урожай трижды в год, тьма отступала. Поселение назвали Эфирионом — в честь погребённого стража.</p>
+  </div>
+</div>
+<div class="sep"><span>✦</span></div>
+
+<div class="book">
+  <p class="book-label">Liber II</p>
+  <h2 class="book-name">Раскол и Незнакомка</h2>
+  <div class="chapter">
+    <div class="chap-head"><span class="chap-num">Глава 3</span><span class="chap-title">Молчание власти</span></div>
+    <p class="verse">Город разросся, власть замолчала. Каждый квартал говорил на свой лад. Пятеро смельчаков пообещали поднять город, и народ поверил им.</p>
+  </div>
+  <div class="chapter">
+    <div class="chap-head"><span class="chap-num">Глава 4</span><span class="chap-title">Кираку</span></div>
+    <p class="verse">Кираку вошла тихо, но вскоре стала хозяйкой. Она слушала, запоминала слабости и появлялась в нужный момент.</p>
+  </div>
+</div>
+<div class="sep"><span>✦</span></div>
+
+<div class="book book-dark">
+  <p class="book-label">Liber III</p>
+  <h2 class="book-name">Яд и Падение</h2>
+  <div class="chapter">
+    <div class="chap-head"><span class="chap-num">Глава 5</span><span class="chap-title">Ложная забота</span></div>
+    <p class="verse">Кираку не принуждала — она дарила притворную заботу. Большинство из пятерых стали её голосами. Устояли лишь двое — Правдивый и Бдящий. Их изгнали.</p>
+  </div>
+  <div class="chapter">
+    <div class="chap-head"><span class="chap-num">Глава 6</span><span class="chap-title">Демон алчности</span></div>
+    <p class="verse">Кираку оказалась древним демоном — Daemonium Cupiditatis. Она пришла за силой Кристалла.</p>
+  </div>
+  <div class="chapter">
+    <div class="chap-head"><span class="chap-num">Глава 7</span><span class="chap-title">Война</span></div>
+    <p class="verse">Она посеяла вражду между кварталами. Город начал пожирать себя. Эфир под землёй слышал это и не мог пошевелиться — рухнуло бы небо.</p>
+  </div>
+  <div class="chapter">
+    <div class="chap-head"><span class="chap-num">Глава 8</span><span class="chap-title">Убийство Прародителя</span></div>
+    <p class="verse">По её слову люди убили Эфира. Кристалл раскололся на семь осколков. Небо прогнулось. Кираку попыталась взять силу, но не получила ничего — и бежала.</p>
+  </div>
+</div>
+<div class="sep"><span>✦</span></div>
+
+<div class="book book-end">
+  <p class="book-label">Liber IV</p>
+  <h2 class="book-name">Возвращение и Завет</h2>
+  <div class="chapter">
+    <div class="chap-head"><span class="chap-num">Глава 9</span><span class="chap-title">Башня Первого Света</span></div>
+    <p class="verse">Изгнанные вернулись. В сердце города возвели Башню, в основание которой положили самый крупный осколок Кристалла. Остальные шесть раздали районам.</p>
+  </div>
+  <div class="chapter">
+    <div class="chap-head"><span class="chap-num">Глава 10</span><span class="chap-title">Завет</span></div>
+    <p class="verse">Новая власть дала обещание: хранить дары предков, держать мир между частями и никогда не забывать, какой ценой стоит небо. Город живёт до сих пор.</p>
+  </div>
+</div>
+<div class="sep"><span>✦</span></div>
+
+<div class="book">
+  <p class="book-label">Liber V</p>
+  <h2 class="book-name">Шесть районов</h2>
+  <div class="district-grid">
+    <div class="dc dc-steam"><div class="dc-name">Кованый Округ</div><div class="dc-text">Машины, пар, инженерная вера.</div></div>
+    <div class="dc dc-elves"><div class="dc-name">Серебряный Предел</div><div class="dc-text">Магия, ритуалы, поющий осколок.</div></div>
+    <div class="dc dc-gothic"><div class="dc-name">Тёмный Притвор</div><div class="dc-text">Хроники, подземный собор, принцип «Ne iterum».</div></div>
+    <div class="dc dc-asia"><div class="dc-name">Квартал Восходящей Черты</div><div class="dc-text">Равновесие, чайные церемонии, медитации.</div></div>
+    <div class="dc dc-ocean"><div class="dc-name">Прибрежный Предел</div><div class="dc-text">Море, открытое святилище, необычные приливы.</div></div>
+    <div class="dc dc-italy"><div class="dc-name">Солнечные Аркады</div><div class="dc-text">Искусство, песни, красота как благодарность.</div></div>
+  </div>
+</div>
+
+<div class="colophon">
+  <p>Записано в год, когда Башня не отбрасывала тени.</p>
+  <p>Да стоит Эфирион. Да держится небо.</p>
+</div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- БЛОК ГЕРОИ (в разработке) – заглушка -->
+  <!-- ============================================================ -->
+  <div id="apostles-version" class="version-content" style="display: none;">
+    <div class="under-construction">
+      <h3>📖 Книги Героев</h3>
+      <p>Скоро здесь появятся отдельные свитки, посвящённые персонажам Эфириона:<br>Эфир, Кираку, Пятеро, Veritas и Vigil, Хранители районов…</p>
+      <p>Раздел в разработке. Возвращайтесь позже.</p>
+    </div>
+  </div>
 
 </div><!-- /page -->
 
 <script>
-  const s=document.getElementById('stars');
-  for(let i=0;i<110;i++){
-    const e=document.createElement('span');
-    const sz=Math.random()<0.12?2:1;
-    e.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;width:${sz}px;height:${sz}px;--d:${3+Math.random()*6}s;--del:-${Math.random()*8}s;opacity:${0.15+Math.random()*0.5}`;
-    s.appendChild(e);
+  // ЗВЁЗДЫ
+  const starsContainer = document.getElementById('stars');
+  for (let i = 0; i < 120; i++) {
+    const star = document.createElement('span');
+    const size = Math.random() < 0.12 ? 2 : 1;
+    star.style.cssText = `left:${Math.random() * 100}%;top:${Math.random() * 100}%;width:${size}px;height:${size}px;--d:${3 + Math.random() * 6}s;--del:-${Math.random() * 8}s;opacity:${0.15 + Math.random() * 0.5}`;
+    starsContainer.appendChild(star);
   }
+
+  // ПЕРЕКЛЮЧЕНИЕ ВЕРСИЙ
+  const fullDiv = document.getElementById('full-version');
+  const mediumDiv = document.getElementById('medium-version');
+  const shortDiv = document.getElementById('short-version');
+  const apostlesDiv = document.getElementById('apostles-version');
+  const btns = document.querySelectorAll('.version-btn');
+
+  function setVersion(version) {
+    fullDiv.style.display = 'none';
+    mediumDiv.style.display = 'none';
+    shortDiv.style.display = 'none';
+    apostlesDiv.style.display = 'none';
+    if (version === 'full') fullDiv.style.display = 'block';
+    else if (version === 'medium') mediumDiv.style.display = 'block';
+    else if (version === 'short') shortDiv.style.display = 'block';
+    else if (version === 'apostles') apostlesDiv.style.display = 'block';
+    btns.forEach(btn => {
+      if (btn.dataset.version === version) btn.classList.add('active');
+      else btn.classList.remove('active');
+    });
+  }
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      setVersion(btn.dataset.version);
+    });
+  });
 </script>
 </body>
 </html>
